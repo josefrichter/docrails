@@ -1259,23 +1259,23 @@ Nyní pokud se pokusíte vytvořit příspěvek, uvítá vás základní HTTP au
 !images/challenge.png(Basic HTTP Authentication Challenge)!
 
 
-h3. Building a Multi-Model Form
+h3. Vytváření Multi-Model Formuláře
 
-Another feature of your average blog is the ability to tag posts. To implement this feature your application needs to interact with more than one model on a single form. Rails offers support for nested forms.
+Další vlastností průměrného blogu je možnost štítkovat příspěvky. Pro jeji implementaci potřebuje vaše aplikace spolupracovat s více objekty v jednom formuláři. Rails poskytují podporu pro vnořené formuláře.
 
-To demonstrate this, we will add support for giving each post multiple tags, right in the form where you create the post. First, create a new model to hold the tags:
+Na ukázku přidáme podporu pro přidávání několika štítků každému příspěvku přímo ve formuláři, kde vytváříme příspěvek. Nejprve vytvořte nový model, který bude reprezentovat štítky:
 
 <shell>
 $ rails generate model tag name:string post:references
 </shell>
 
-Again, run the migration to create the database table:
+Opět, spustěte migrace pro vytvoření tabulky v databázi:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Next, edit the +post.rb+ file to create the other side of the association, and to tell Rails (via the +accepts_nested_attributes_for+ macro) that you intend to edit tags via posts:
+Dále, pozměňte soubor +post.rb+ abyste vytvořili druhou stranu vazby a dali Rails věďet, (přes +accepts_nested_attributes_for+ makro) že hodláte měnit štítky přes příspěvky:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -1291,16 +1291,16 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-The +:allow_destroy+ option on the nested attribute declaration tells Rails to display a "remove" checkbox on the view that you'll build shortly. The +:reject_if+ option prevents saving new tags that do not have any attributes filled in.
+Volba +:allow_destroy+ při deklaraci nested attribute říka Rails ať zobrazí checkbox "Odstranit" v šabloně, kterou vytvoříme za chvíli. Volba +:reject_if+ zabraňuje ukládání nových štítků, které nemají vyplněny žádne atributy.
 
-We will modify +views/posts/_form.html.erb+ to render a partial to make a tag:
+Upravíme +views/posts/_form.html.erb+ pro zobrazení partial view pro štítky:
 
 <erb>
 <% @post.tags.build %>
 <%= form_for(@post) do |post_form| %>
   <% if @post.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <h2><%= pluralize(@post.errors.count, "error") %> zabránili tomuto příspevku, aby byl uložen:</h2>
     <ul>
     <% @post.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
@@ -1330,68 +1330,69 @@ We will modify +views/posts/_form.html.erb+ to render a partial to make a tag:
 <% end %>
 </erb>
 
-Note that we have changed the +f+ in +form_for(@post) do |f|+ to +post_form+ to make it easier to understand what is going on.
+Povšimněte si, že jsme změnili +f+ v +form_for(@post) do |f|+ na +post_form+ abychom to udělali jednodušší na porozumění.
 
-This example shows another option of the render helper, being able to pass in local variables, in this case, we want the local variable +form+ in the partial to refer to the +post_form+ object.
+Tenhle příklad ukazuje další možnost zobrazovacího pomocníka, díky které můžeme předat lokálni proměnnou, v tomhle případě chceme, aby lokálni proměnná v častečné šabloně +form+ odkazovala na objekt +post_form+.
 
-We also add a <tt>@post.tags.build</tt> at the top of this form, this is to make sure there is a new tag ready to have it's name filled in by the user.  If you do not build the new tag, then the form will not appear as there is no new Tag object ready to create.
+Také jsme přidali <tt>@post.tags.build</tt> na vrchu formuláře, tím se ujistíme, že máme připraven nový štítek pro vyplnění jeho jména uživatelem. Jestli nevytváříte nový štítek, pak se formulář nezobrazí, ponevač neexistuje nový objekt štítku pro vytvoření.
 
-Now create the folder <tt>app/views/tags</tt> and make a file in there called <tt>_form.html.erb</tt> which contains the form for the tag:
+Těď vytvořte adresáŕ <tt>app/views/tags</tt> a v něm soubor <tt>_form.html.erb</tt> který obsahuje formulář pro štítek:
 
 <erb>
 <%= form.fields_for :tags do |tag_form| %>
   <div class="field">
-    <%= tag_form.label :name, 'Tag:' %>
+    <%= tag_form.label :name, 'Štítek:' %>
     <%= tag_form.text_field :name %>
   </div>
   <% unless tag_form.object.nil? || tag_form.object.new_record? %>
     <div class="field">
-      <%= tag_form.label :_destroy, 'Remove:' %>
+      <%= tag_form.label :_destroy, 'Odstranit:' %>
       <%= tag_form.check_box :_destroy %>
     </div>
   <% end %>
 <% end %>
 </erb>
 
-Finally, we will edit the <tt>app/views/posts/show.html.erb</tt> template to show our tags.
+Nakonec upravíme <tt>app/views/posts/show.html.erb</tt> šablonu pro zobrazování našich štítků.
 
 <erb>
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Název:</b>
   <%= @post.name %>
 </p>
 
 <p>
-  <b>Title:</b>
+  <b>Titulek:</b>
   <%= @post.title %>
 </p>
 
 <p>
-  <b>Content:</b>
+  <b>Obsah:</b>
   <%= @post.content %>
 </p>
 
 <p>
-  <b>Tags:</b>
+  <b>Štítky:</b>
   <%= @post.tags.map { |t| t.name }.join(", ") %>
 </p>
 
-<h2>Comments</h2>
+<h2>Komentáře</h2>
 <%= render @post.comments %>
 
-<h2>Add a comment:</h2>
+<h2>Přidejte komentář:</h2>
 <%= render "comments/form" %>
 
 
-<%= link_to 'Edit Post', edit_post_path(@post) %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<%= link_to 'Editovat příspěvek', edit_post_path(@post) %> |
+<%= link_to 'Zpět na příspěvky', posts_path %> |
 </erb>
 
-With these changes in place, you'll find that you can edit a post and its tags directly on the same view.
+S těmito změnami můžete upravovat příspevky svého blogu a štítky přímo ve stejným zobrazení.
 
-However, that method call <tt>@post.tags.map { |t| t.name }.join(", ")</tt> is awkward, we could handle this by making a helper method.
+
+Jelikož je způsob <tt>@post.tags.map { |t| t.name }.join(", ")</tt> nešikovný, můžeme si poradit použitím helper metody.
 
 h3. View Helpers
 
