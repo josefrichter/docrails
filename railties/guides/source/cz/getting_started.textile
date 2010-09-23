@@ -1461,9 +1461,9 @@ Rails také nabízí vstavanou nápovědu, kterou si můžete vygenerovat použi
 
 h3. Vychytávky pro konfiguraci
 
-Nejjednoduchší spůsub, jak pracovat s Rails je ukládat všechna externí data ve formáte UTF-8. Jestli ne, Ruby knižnice a Rails budou často schopni konvertovat vaše nativní data do UTF-8, ale ne vždy to funguje spolehlivě, takže je lepší ujistit se, že všechna externí data jsou v UTF-8.
+Nejjednoduchší způsub, jak pracovat s Rails je ukládat všechna externí data ve formáte UTF-8. Jestli ne, Ruby knihovny a Rails budou často schopni konvertovat vaše nativní data do UTF-8, ale ne vždy to funguje spolehlivě, takže je lepší ujistit se, že všechna externí data jsou v UTF-8.
 
-Jestli jste v něčem z toho udělali chybu, nejčastějsí příznak je černý diamant s otazníkem vevnitř zobrazujíci se v prohlížeči. Další častý příznak je znak jako například "Ã¼" zobrazujíci se namísto "ü". Rails dělají několik interních kroků, aby zmírnili častým příčinám těchto problémů, které můžou být automaticky zjišteny a opraveny. Nicméně, jestli máte data, která nejsou uložena v UTF-8, může se stát, že se objeví problémy, které nemůžou být automaticky zjišteny a opraveny v Rails.
+Jestli jste v něčem z toho udělali chybu, nejčastějsí příznak je černý diamant s otazníkem vevnitř zobrazujíci se v prohlížeči. Další častý příznak je znak jako například "Ã¼" zobrazujíci se namísto "ü". Rails dělají několik interních kroků, aby zmírnili příčiny těchto problémů, které můžou být automaticky zjištěny a opraveny. Nicméně, jestli máte data, která nejsou uložena v UTF-8, může se stát, že se objeví problémy, které nemůžou být automaticky zjištěny a opraveny v Rails.
 
 Dva časté zdroje dat, která nejsou v UTF-8:
 * Váš textový editor: Většina textových editorů (jako například TextMate), ukládá soubory
@@ -1472,7 +1472,7 @@ Dva časté zdroje dat, která nejsou v UTF-8:
   s otazníkem vevnitř. To se taky týká vašich I18N překladových souború. Většina editorů,
   které neukládají předvoleně do UTF-8 (jako například některé verze Dreamwaver-u) poskytují
   způsob, jak změnit předvolené ukládání na UTF-8. Udělejte to.
-* Vaše databáza. Rails implicitně konvertují data z vaši databáze TODO at the boundary TODO.
+* Vaše databáza. Rails implicitně konvertují data z vaši databáze při výběru/zápisu.
   Takže jestli vaše databáza nepoužívá interně UTF-8, nemusí být schopna ukládat všechny znaky,
   které uživatelé zadají. Například, jestli vaše databáza interně používa Latin-1 a uživatelé
   zadají Ruské, Hebrejské nebo Japonské znaky, data se navždy stratí v momentě, kdy se dostanou
