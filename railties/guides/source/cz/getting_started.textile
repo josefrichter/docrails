@@ -1385,7 +1385,7 @@ Nakonec upravíme <tt>app/views/posts/show.html.erb</tt> šablonu pro zobrazová
 <%= render "comments/form" %>
 
 
-<%= link_to 'Editovat příspěvek', edit_post_path(@post) %> |
+<%= link_to 'Upravit příspěvek', edit_post_path(@post) %> |
 <%= link_to 'Zpět na příspěvky', posts_path %> |
 </erb>
 
@@ -1394,11 +1394,11 @@ S těmito změnami můžete upravovat příspevky svého blogu a štítky přím
 
 Jelikož je způsob <tt>@post.tags.map { |t| t.name }.join(", ")</tt> nešikovný, můžeme si poradit použitím helper metody.
 
-h3. View Helpers
+h3. Zobrazovací Helpery
 
-View Helpers live in <tt>app/helpers</tt> and provide small snippets of reusable code for views.  In our case, we want a method that strings a bunch of objects together using their name attribute and joining them with a comma.  As this is for the Post show template, we put it in the PostsHelper.
+Zobrazovací helpery se nacházejí v <tt>app/helpers</tt> a poskytují malé kousky znovupoužitelného kódu pro naše pohledy. V našem případě potřebujeme metodu, která zřetězí několik objektů použitím jejich názvu a spojí je čárkami. Jelikož je tahle helper metoda použita v šablone Post show, umístnime ji do PostsHelper.
 
-Open up <tt>app/helpers/posts_helper.rb</tt> and add the following:
+Otevřte <tt>app/helpers/posts_helper.rb</tt> a přidejte nasledovné:
 
 <erb>
 module PostsHelper
@@ -1408,78 +1408,77 @@ module PostsHelper
 end
 </erb>
 
-Now you can edit the view in <tt>app/views/posts/show.html.erb</tt> to look like this:
+Teď můžete upravit zobrazení v <tt>app/views/posts/show.html.erb</tt> aby vypadalo takhle:
 
 <erb>
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Název:</b>
   <%= @post.name %>
 </p>
 
 <p>
-  <b>Title:</b>
+  <b>Titulek:</b>
   <%= @post.title %>
 </p>
 
 <p>
-  <b>Content:</b>
+  <b>Obsah:</b>
   <%= @post.content %>
 </p>
 
 <p>
-  <b>Tags:</b>
+  <b>Štítky:</b>
   <%= join_tags(@post) %>
 </p>
 
-<h2>Comments</h2>
+<h2>Komentáře</h2>
 <%= render @post.comments %>
 
-<h2>Add a comment:</h2>
+<h2>Přidat komentář:</h2>
 <%= render "comments/form" %>
 
 
-<%= link_to 'Edit Post', edit_post_path(@post) %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<%= link_to 'Upravit příspěvek', edit_post_path(@post) %> |
+<%= link_to 'Zpět na příspěvky', posts_path %> |
 </erb>
 
-h3. What's Next?
+h3. Co dál?
 
-Now that you've seen your first Rails application, you should feel free to update it and experiment on your own. But you don't have to do everything without help. As you need assistance getting up and running with Rails, feel free to consult these support resources:
+Teď, když jste vytvořili svou první Rails aplikaci, nemělo by vám dělat problém vylepšit si ji a experimentovat s ní. Nemusíte však dělat všechno bez nápovědy. Když budete potřebovat pomoc ohledně vývoje v Rails, neváhejte použít tyhle zdroje:
 
-* The "Ruby on Rails guides":index.html
-* The "Ruby on Rails Tutorial":http://railstutorial.org/book
+* The "Ruby on Rails guide":index.html
+* The "Ruby on Rails tutorial":http://railstutorial.org/book
 * The "Ruby on Rails mailing list":http://groups.google.com/group/rubyonrails-talk
-* The "#rubyonrails":irc://irc.freenode.net/#rubyonrails channel on irc.freenode.net
+* The "#rubyonrails":irc://irc.freenode.net/#rubyonrails kanál na irc.freenode.net
 * The "Rails Wiki":http://wiki.rubyonrails.org/
 
-Rails also comes with built-in help that you can generate using the rake command-line utility:
+Rails také nabízí vstavanou nápovědu, kterou si můžete vygenerovat použitím nástroje rake v příkazovém řádku:
 
-* Running +rake doc:guides+ will put a full copy of the Rails Guides in the +doc/guides+ folder of your application. Open +doc/guides/index.html+ in your web browser to explore the Guides.
-* Running +rake doc:rails+ will put a full copy of the API documentation for Rails in the +doc/api+ folder of your application. Open +doc/api/index.html+ in your web browser to explore the API documentation.
+* Spuštění +rake doc:guides+ uloží kompletní kopii Rails Guides do adresáře +doc/guides+ vaši applikace. Otevřte +doc/guides/index.html+ ve svém prohlížeči pro jeji prohlížení.
+* Spuštění +rake doc:rails+ uloží kompletní kopii API dokumentace pro Rails do adresáře +doc/api+ vaši aplikace. Otevřte +doc/api/index.html+ ve svém prohlížeči pro jeji prohlížení.
 
-h3. Configuration Gotchas
+h3. Vychytávky pro konfiguraci
 
-The easiest way to work with Rails is to store all external data as UTF-8. If you don't, Ruby libraries and Rails will often be able to convert your native data into UTF-8, but this doesn't always work reliably, so you're better off ensuring that all external data is UTF-8.
+Nejjednoduchší spůsub, jak pracovat s Rails je ukládat všechna externí data ve formáte UTF-8. Jestli ne, Ruby knižnice a Rails budou často schopni konvertovat vaše nativní data do UTF-8, ale ne vždy to funguje spolehlivě, takže je lepší ujistit se, že všechna externí data jsou v UTF-8.
 
-If you have made a mistake in this area, the most common symptom is a black diamond with a question mark inside appearing in the browser. Another common symptom is characters like "Ã¼" appearing instead of "ü". Rails takes a number of internal steps to mitigate common causes of these problems that can be automatically detected and corrected. However, if you have external data that is not stored as UTF-8, it can occasionally result in these kinds of issues that cannot be automatically detected by Rails and corrected.
+Jestli jste v něčem z toho udělali chybu, nejčastějsí příznak je černý diamant s otazníkem vevnitř zobrazujíci se v prohlížeči. Další častý příznak je znak jako například "Ã¼" zobrazujíci se namísto "ü". Rails dělají několik interních kroků, aby zmírnili častým příčinám těchto problémů, které můžou být automaticky zjišteny a opraveny. Nicméně, jestli máte data, která nejsou uložena v UTF-8, může se stát, že se objeví problémy, které nemůžou být automaticky zjišteny a opraveny v Rails.
 
-Two very common sources of data that are not UTF-8:
-* Your text editor: Most text editors (such as Textmate), default to saving files as
-  UTF-8. If your text editor does not, this can result in special characters that you
-  enter in your templates (such as é) to appear as a diamond with a question mark inside
-  in the browser. This also applies to your I18N translation files.
-  Most editors that do not already default to UTF-8 (such as some versions of
-  Dreamweaver) offer a way to change the default to UTF-8. Do so.
-* Your database. Rails defaults to converting data from your database into UTF-8 at
-  the boundary. However, if your database is not using UTF-8 internally, it may not
-  be able to store all characters that your users enter. For instance, if your database
-  is using Latin-1 internally, and your user enters a Russian, Hebrew, or Japanese
-  character, the data will be lost forever once it enters the database. If possible,
-  use UTF-8 as the internal storage of your database.
+Dva časté zdroje dat, která nejsou v UTF-8:
+* Váš textový editor: Většina textových editorů (jako například TextMate), ukládá soubory
+  předvoleně v UTF-8. Jestli to váš editor nedělá, může se stát, že speciální znaky, které
+  použijete ve vašich šablonách (například é), se v prohlížeči zobrazí jako diamant
+  s otazníkem vevnitř. To se taky týká vašich I18N překladových souború. Většina editorů,
+  které neukládají předvoleně do UTF-8 (jako například některé verze Dreamwaver-u) poskytují
+  způsob, jak změnit předvolené ukládání na UTF-8. Udělejte to.
+* Vaše databáza. Rails implicitně konvertují data z vaši databáze TODO at the boundary TODO.
+  Takže jestli vaše databáza nepoužívá interně UTF-8, nemusí být schopna ukládat všechny znaky,
+  které uživatelé zadají. Například, jestli vaše databáza interně používa Latin-1 a uživatelé
+  zadají Ruské, Hebrejské nebo Japonské znaky, data se navždy stratí v momentě, kdy se dostanou
+  do databázy. Jestli to je možné, používejte UTF-8 jako interní úložiště vaši databáze.
 
-h3. Changelog
+h3. Seznam změn
 
 "Lighthouse ticket":http://rails.lighthouseapp.com/projects/16213-rails-guides/tickets/2
 
