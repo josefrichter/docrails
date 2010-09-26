@@ -774,25 +774,25 @@ end
 
 The +destroy+ method of an Active Record model instance removes the corresponding record from the database. After that's done, there isn't any record to display, so Rails redirects the user's browser to the index view for the model.
 
-h3. Adding a Second Model
+h3. Přidání druhého modelu
 
-Now that you've seen how a model built with scaffolding looks like, it's time to add a second model to the application. The second model will handle comments on blog posts.
+Teď, když už víte, jak model vytvořený scaffoldem vypadá, je čas přidat do aplikace druhý model. Ten bude sloužit na správu komentářů k příspěvkům na blogu.
 
-h4. Generating a Model
+h4. Vygenerování modelu
 
-Models in Rails use a singular name, and their corresponding database tables use a plural name. For the model to hold comments, the convention is to use the name Comment. Even if you don't want to use the entire apparatus set up by scaffolding, most Rails developers still use generators to make things like models and controllers. To create the new model, run this command in your terminal:
+Modely v Rails používají název v jednotném čísle a k nim přináležíci tabulky v databáze používají pro název číslo množné. Model pro komentáře bude mít podle konvencí název Comment. I když nechcete použít všechny současti vygenerované scaffoldem, většina Rails vývojářů používa generátory pro věci jako modely a kontrolery. Pro vytvoření modelu, spusťte tenhle příkaz v konzole:
 
 <shell>
 $ rails generate model Comment commenter:string body:text post:references
 </shell>
 
-This command will generate four files:
+Tenhle příkaz vygeneruje čtyři soubory:
 
-* +app/models/comment.rb+ - The model
-* +db/migrate/20100207235629_create_comments.rb+ - The migration
-* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - The test harness.
+* +app/models/comment.rb+ - Model
+* +db/migrate/20100207235629_create_comments.rb+ - Migrace
+* +test/unit/comment_test.rb+ and +test/fixtures/comments.yml+ - Příprava pro testy.
 
-First, take a look at +comment.rb+:
+Nejdřív se podívejme na +comment.rb+:
 
 <ruby>
 class Comment < ActiveRecord::Base
@@ -800,9 +800,9 @@ class Comment < ActiveRecord::Base
 end
 </ruby>
 
-This is very similar to the +post.rb+ model that you saw earlier. The difference is the line +belongs_to :post+, which sets up an Active Record _association_. You'll learn a little about associations in the next section of this guide.
+Tohle je hodně podobné modelu +post.rb+ který jste viděli dříve. Rozdílny je řádek +belongs_to :post+, který nastaví Active Record _vazbu_. O vazbách se naučíte víc v nasledující kapitole tohoto průvodce.
 
-In addition to the model, Rails has also made a migration to create the corresponding database table:
+Jako přídavek k modelu, Rails vytvořili i migraci, která vybuduje příslušnou databázovou tabulku:
 
 <ruby>
 class CreateComments < ActiveRecord::Migration
@@ -822,13 +822,13 @@ class CreateComments < ActiveRecord::Migration
 end
 </ruby>
 
-The +t.references+ line sets up a foreign key column for the association between the two models. Go ahead and run the migration:
+Řádek +t.references+ nastaví cizí klíč pro vazbu mezi těmito dvěma modely. Teď spustěte migraci:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Rails is smart enough to only execute the migrations that have not already been run against the current database, so in this case you will just see:
+Rails jsou dostatečně chytrý, takže spustí jenom migrace, které ještě nebyly spouštěné pro aktuální databázi, takže v tomhle případě uvidíte jenom:
 
 <shell>
 ==  CreateComments: migrating =================================================
@@ -837,14 +837,14 @@ Rails is smart enough to only execute the migrations that have not already been 
 ==  CreateComments: migrated (0.0018s) ========================================
 </shell>
 
-h4. Associating Models
+h4. Provázání modelů
 
-Active Record associations let you easily declare the relationship between two models. In the case of comments and posts, you could write out the relationships this way:
+Vazby v Active Record vám dovolují snadno deklarovat vztahy mezi dvěma modely. V případě komentářů a příspěvků, můžete zapsat vztah tímhle způsobem:
 
-* Each comment belongs to one post
-* One post can have many comments
+* Každý komentář patří jednomu příspěvku
+* Jeden příspěvek může mít vícero komentářů
 
-In fact, this is very close to the syntax that Rails uses to declare this association. You've already seen the line of code inside the Comment model that makes each comment belong to a Post:
+Ve skutečnosti, tohle je hodně podobné zápisu, který Rails používají pro deklaraci této vazby. Už jste viděli řádek kódu uvnitř modelu Comment, který udělal každý komentář patřící příspěvku::
 
 <ruby>
 class Comment < ActiveRecord::Base
@@ -852,7 +852,7 @@ class Comment < ActiveRecord::Base
 end
 </ruby>
 
-You'll need to edit the +post.rb+ file to add the other side of the association:
+Budete potřebovat upravit soubor +post.rb+ abyste přidali druhou stranu vazby:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -864,13 +864,13 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-These two declarations enable a good bit of automatic behavior. For example, if you have an instance variable +@post+ containing a post, you can retrieve all the comments belonging to that post as the array +@post.comments+.
+Tyhle dvě deklarace zapnou velký kus automatického chování. Například, když máte instanční proměnnou +@post+ obsahující příspěvek, můžete jednoduše získat všechny komentáře patřící tomuto příspěvku jako pole +@post.comments+.
 
-TIP: For more information on Active Record associations, see the "Active Record Associations":association_basics.html guide.
+TIP: Pro víc informací o Active Record vazbách se podívejte na průvodce "Active Record Associations":association_basics.html.
 
-h4. Adding a Route for Comments
+h4. Přidání routy pro komentáře
 
-As with the +home+ controller, we will need to add a route so that Rails knows where we would like to navigate to see +comments+.  Open up the +config/routes.rb+ file again, you will see an entry that was added automatically for +posts+ near the top by the scaffold generator, +resources :posts+, edit it as follows:
+Jako s +home+ kontrolerem, musíme přidat routu, aby Rails vědeli kam se chceme dostat pro zobrazení komentářů. Otevřete znovu soubor +config/routes.rb+ , uvidíte záznam, který byl přidán automaticky pro +posts+ scaffold generátorem, +resources :posts+, upravte ho nasledovně:
 
 <ruby>
 resources :posts do
@@ -878,49 +878,49 @@ resources :posts do
 end
 </ruby>
 
-This creates +comments+ as a _nested resource_ within +posts+. This is another part of capturing the hierarchical relationship that exists between posts and comments.
+To vytvoří +comments+ jako _vnořené zdroje_ pro +posts+. Tohle je další část zachycení hierarchického vztahu, který existuje mezi příspěvky a komentáři.
 
-TIP: For more information on routing, see the "Rails Routing from the Outside In":routing.html guide.
+TIP: Pro víc informací o routingu se podívejte na průvodce "Rails Routing from the Outside In":routing.html.
 
-h4. Generating a Controller
+h4. Vygenerování kontroleru
 
-With the model in hand, you can turn your attention to creating a matching controller. Again, there's a generator for this:
+Když máme hotový model, můžeme soustředit svou pozornost na vytvoření příslušného kontroleru. Pro to máme opět k dispozici generátor:
 
 <shell>
 $ rails generate controller Comments
 </shell>
 
-This creates four files and one empty directory:
+To vytvoří čtyři soubory a jeden prázdny adresář:
 
-* +app/controllers/comments_controller.rb+ - The controller
-* +app/helpers/comments_helper.rb+ - A view helper file
-* +test/functional/comments_controller_test.rb+ - The functional tests for the controller
-* +test/unit/helpers/comments_helper_test.rb+ - The unit tests for the helper
-* +app/views/comments/+ - Views of the controller are stored here
+* +app/controllers/comments_controller.rb+ - Kontroler
+* +app/helpers/comments_helper.rb+ - Soubor s pomocnými metodami pro zobrazení
+* +test/functional/comments_controller_test.rb+ - Funkční testy pro kontroler
+* +test/unit/helpers/comments_helper_test.rb+ - Jednotkový test pro helper
+* +app/views/comments/+ - Tady jsou uloženy zobrazení
 
-Like with any blog, our readers will create their comments directly after reading the post, and once they have added their comment, will be sent back to the post show page to see their comment now listed.  Due to this, our +CommentsController+ is there to provide a method to create comments and delete SPAM comments when they arrive.
+Jako při jakýmkoli blogu, naši čtenáři budou chtít vytvářet jejich komentáře hned po přečtení příspěvku. Jakmile komentář přidají, budou přesměrování na zobrazení příspěvku, aby viděli jejich přidaný komentář . Kvůli tomu náš +CommentsController+ poskytuje metodu pro vytváření komentářů a mazaní komentářů, které jsou považovány za SPAM.
 
-So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+) to let us make a new comment:
+Nejdřív dáme dohromady šablonu pro zobrazení příspěvku (+/app/views/posts/show.html.erb+) abychom mohli přidávat komentáře:
 
 <erb>
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Název:</b>
   <%= @post.name %>
 </p>
 
 <p>
-  <b>Title:</b>
+  <b>Titulek:</b>
   <%= @post.title %>
 </p>
 
 <p>
-  <b>Content:</b>
+  <b>Obsah:</b>
   <%= @post.content %>
 </p>
 
-<h2>Add a comment:</h2>
+<h2>Přidat komentář:</h2>
 <%= form_for([@post, @post.comments.build]) do |f| %>
   <%= f.error_messages %>
 
@@ -937,11 +937,11 @@ So first, we'll wire up the Post show template (+/app/views/posts/show.html.erb+
   </div>
 <% end %>
 
-<%= link_to 'Edit Post', edit_post_path(@post) %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<%= link_to 'Upravit příspěvek', edit_post_path(@post) %> |
+<%= link_to 'Zpátky na příspěvky', posts_path %> |
 </erb>
 
-This adds a form on the Post show page that creates a new comment, which will call the +CommentsController+ +create+ action, so let's wire that up:
+Tohle přidá na stránku zobrazení příspěvku formulář pro přidání nového komentáře, který zavolá +CommentsController+ +create+ akci, takže ho pojďme vytvořit:
 
 <ruby>
 class CommentsController < ApplicationController
@@ -953,44 +953,44 @@ class CommentsController < ApplicationController
 end
 </ruby>
 
-You'll see a bit more complexity here than you did in the controller for posts. That's a side-effect of the nesting that you've set up; each request for a comment has to keep track of the post to which the comment is attached, thus the initial find action to the Post model to get the post in question.
+Uvidíte zde trochu víc komplexity v porovnání s kontrolerem pro příspěvky. To je vedlejší efekt vnoření, které jste nastavili; každý požadavek pro komentář si musí ukládat informaci o tom, ke kterému příspěvku je přiřazen, proto ta začáteční find akce na modeli Post - pro získaní příspevku.
 
-In addition, the code takes advantage of some of the methods available for an association. We use the +create+ method on +@post.comments+ to create and save the comment. This will automatically link the comment so that it belongs to that particular post.
+Kromě toho, kód využíva některé metody dostupné pro vazby. Používáme metodu +create+ na +@post.comments+ pro vytvoření a uložení komentáře. To automaticky nalinkuje komentář tak, aby patřil danému příspěvku.
 
-Once we have made the new comment, we send the user back to the original post using the +post_path(@post)+ helper. As we have already seen, this calls the +show+ action of the +PostsController+ which in turn renders the +show.html.erb+ template. This is where we want the comment to show, so let's add that to the +app/views/posts/show.html.erb+.
+Jakmile jsme přidali nový komentář, pošleme uživatele zpátky na originální příspěvek použitím helpru +post_path(@post)+. Jak jsme už viděli, tohle zavolá +show+ akci na +PostsController+ který následně zobrazí šablonu +show.html.erb+. Tam chceme ten komentář zobrazit, tak to přidejme do +app/views/posts/show.html.erb+.
 
 <erb>
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Název:</b>
   <%= @post.name %>
 </p>
 
 <p>
-  <b>Title:</b>
+  <b>Titulek:</b>
   <%= @post.title %>
 </p>
 
 <p>
-  <b>Content:</b>
+  <b>Obsah:</b>
   <%= @post.content %>
 </p>
 
-<h2>Comments</h2>
+<h2>Komentáře</h2>
 <% @post.comments.each do |comment| %>
   <p>
-    <b>Commenter:</b>
+    <b>Komentátor:</b>
     <%= comment.commenter %>
   </p>
 
   <p>
-    <b>Comment:</b>
+    <b>Komentář:</b>
     <%= comment.body %>
   </p>
 <% end %>
 
-<h2>Add a comment:</h2>
+<h2>Přidejte komentář:</h2>
 <%= form_for([@post, @post.comments.build]) do |f| %>
   <%= f.error_messages %>
 
@@ -1009,11 +1009,11 @@ Once we have made the new comment, we send the user back to the original post us
 
 <br />
 
-<%= link_to 'Edit Post', edit_post_path(@post) %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<%= link_to 'Úprava příspěvku', edit_post_path(@post) %> |
+<%= link_to 'Zpátky na příspěvky', posts_path %> |
 </erb>
 
-Now you can add posts and comments to your blog and have them show up in the right places.
+Teď můžete přidávat příspěvky a komentáře do vašeho blogu mít je zobrazené na správných místech.
 
 h3. Refactoring
 
