@@ -138,84 +138,83 @@ Pokud by vás zajímalo více podrobností o REST jako architektonickém stylu, 
 * "Representational State Transfer [anglicky]":http://en.wikipedia.org/wiki/Representational_State_Transfer článek na Wikipedii
 * "How to GET a Cup of Coffee [anglicky]":http://www.infoq.com/articles/webber-rest-workflow od Jima Webbera, Savase Parastatidise & Iana Robinsona
 
-h3. Creating a New Rails Project
+h3. Vytvoření nového Rails projektu
 
-If you follow this guide, you'll create a Rails project called <tt>blog</tt>, a (very) simple weblog. Before you can start building the application, you need to make sure that you have Rails itself installed.
+Následováním této příručky, vytvoříte (velmi) jednoduchý <tt>blog</tt> v Rails. Předtím ale, než začneme vytvářet aplikaci, musíte se ujistit, že máte Rails správně nainstalované.
 
-h4. Installing Rails
+h4. Instalace Rails
 
-In most cases, the easiest way to install Rails is to take advantage of RubyGems:
+Ve většině případů je nejjednodušší cestou pro nainstalování Rails využítí výhod RubyGems:
 
 <shell>
-Usually run this as the root user:
+Obvykle stačí spustit tento příkaz jako root:
 # gem install rails
 </shell>
 
-TIP. If you're working on Windows, you should be aware that the vast majority of Rails development is done in Unix environments. While Ruby and Rails themselves install easily using for example "Ruby Installer":http://rubyinstaller.org/, the supporting ecosystem often assumes you are able to build C-based rubygems and work in a command window. If at all possible, we suggest that you install a Linux virtual machine and use that for Rails development, instead of using Windows.
+TIP. Pokud pracujete na Windows, mějte na vědomí, že velká většina Rails vývoje probíhá v Unixových systémech. I když samotné Ruby on Rails jdou nainstalovat snadno pomocí například "Ruby Installer":http://rubyinstaller.org/, podpůrný ekosystém často předpokládá, že je schopni zkompilovat rubygems na bázi C-jazyků a pracovat v příkazové řádce. Pokud je to možné, doporučujeme nainstalovat virtuální stroj s operačním systémem Linux a vyvíjet Rails v něm, místo používání Windows.
 
-h4. Creating the Blog Application
+h4. Vytvoření aplikace Blog
 
-The best way to use this guide is to follow each step as it happens, no code or step needed to make this example application has been left out, so you can literally follow along step by step.  If you need to see the completed code, you can download it from "Getting Started Code":http://github.com/mikel/getting-started-code.
+Nejlepší cesta, jak používat tuto příručku je řídit se dle pokynů v ní. Nebyl vynechán jediný krok, nebo část kódu, který je pro vytvoření aplikace potřeba, takže ji můžete následovat krok za krokem. Pokud se potřebujete podívat na celý kód, můžete si ho stáhnout z "Getting Started Code":http://github.com/mikel/getting-started-code.
 
-To begin, open a terminal, navigate to a folder where you have rights to create files, and type:
+Na začátku si otevřete terminál a jdetě do složky, kde máte práva vytvářet soubory a napište:
 
 <shell>
 $ rails new blog
 </shell>
 
-This will create a Rails application called Blog in a directory called blog.
+Toto vytvoří Rails aplikaci nazvanou Blog ve složce s názvem blog.
 
-TIP: You can see all of the switches that the Rails application builder accepts by running <tt>rails -h</tt>.
+TIP: Můžete se podívat na všechny parametry, které generátor Rails aplikace přijímá zavoláním <tt>rails -h</tt>.
 
-After you create the blog application, switch to its folder to continue work directly in that application:
+Poté co vytvoříte aplikaci blog, přejděte do jejího adresáře pro pokračování s další prací:
 
 <shell>
 $ cd blog
 </shell>
 
-In any case, Rails will create a folder in your working directory called <tt>blog</tt>. Open up that folder and explore its contents. Most of the work in this tutorial will happen in the <tt>app/</tt> folder, but here's a basic rundown on the function of each folder that Rails creates in a new application by default:
+Rails vytvoří složku v aktuálním adresáři pojmenovanou <tt>blog</tt>. Otevřete ji a prozkoumejte její obsah. Většina úkonů v tomto tutoriálu bude prováděna ve složce <tt>app/</tt>, ale zde je základní popis jednotlivých funkcí všech dalších složek, které Rails vytvoří s novou aplikací:
 
-|_.File/Folder|_.Purpose|
-|Gemfile|This file allows you to specify what gem dependencies are needed for your Rails application.|
-|README.rdoc|This is a brief instruction manual for your application. Use it to tell others what your application does, how to set it up, and so on.|
-|Rakefile|This file contains batch jobs that can be run from the terminal.|
-|app/|Contains the controllers, models, and views for your application. You'll focus on this folder for the remainder of this guide.|
-|config/|Configure your application's runtime rules, routes, database, and more.|
-|config.ru|Rack configuration for Rack based servers used to start the application.|
-|db/|Shows your current database schema, as well as the database migrations. You'll learn about migrations shortly.|
-|doc/|In-depth documentation for your application.|
-|lib/|Extended modules for your application (not covered in this guide).|
-|log/|Application log files.|
-|public/|The only folder seen to the world as-is.  This is where your images, javascript, stylesheets (CSS), and other static files go.|
-|script/|Contains the rails script that starts your app and can contain other scripts you use to deploy or run your application.|
-|test/|Unit tests, fixtures, and other test apparatus. These are covered in "Testing Rails Applications":testing.html|
-|tmp/|Temporary files|
-|vendor/|A place for all third-party code. In a typical Rails application, this includes Ruby Gems, the Rails source code (if you install it into your project) and plugins containing additional prepackaged functionality.|
+|_.Soubor/Složka|_.Účel|
+|Gemfile|Tento soubor vám umožní specifikovat jaké gemy potřebujete pro vaší Rails aplikaci.|
+|README.rdoc|Toto je stručný návod k aplikaci. Použijte ho, abyste ostatním řekli, co aplikace dělá, jak ji nastavit atd.|
+|Rakefile|Tento subor obsahuje dávkové úlohy, které je možné spustit z terminálu.|
+|app/|Obsahuje kontrolery (controllers), modely (models) a pohledy (views). Na tuto složku se budete soustředit po zbytek příručky.|
+|config/|Konfigurace běhu aplikace, cesty (routes), databáze a mnoho dalšího.|
+|config.ru|Rack konfigurace pro Rack servery používaná pro spuštění aplikace.|
+|db/|Aktuální schéma databáze a databázové migrace. Ty popíšeme záhy.|
+|doc/|Podrobná dokumentace pro vaší aplikaci|
+|lib/|Rozšiřující moduly pro vaší aplikaci (není dále popsáno v této příručce).|
+|log/|Aplikační log soubory.|
+|public/|Jediná složka, která je přístupná z venku. Zde se ukládájí obrázky, javascripty, styly (CSS) a další statické soubory.|
+|script/|Obsahuje skript rails, který spouští vaší aplikaci a může obsahovat další, které slouží například pro deploy.|
+|test/|Unit testy, fixtures a jiné testovací nástroje. Ty jsou popsány v "Testování Rails aplikací":testing.html|
+|tmp/|Dočasné soubory|
+|vendor/|Místo pro zdrojové soubory třetích stran. V typické Rails aplikaci to jsou například Ruby Gems, zdrojový kód Rails a pluginy rozšiřující funkcionalitu.|
 
-h4. Installing the Required Gems
+h4. Instalování potřebných Gemů
 
-Rails applications manage gem dependencies with "Bundler":http://gembundler.com/v1.0/index.html by default. As we don't need any other gems beyond the ones in the generated +Gemfile+ we can directly run
+Rails aplikace v základu spravuje závislosti gemů pomocí "Bundleru":http://gembundler.com/v1.0/index.html. Protože nepotřebujeme jiné gemy, než ty, které jsou zahrnuty ve vygenerovaném +Gemfile+, můžeme přímo spustit
 
 <shell>
 bundle install
 </shell>
 
-to have them ready.
+pro jejich nainstalování.
 
-h4. Configuring a Database
+h4. Konfigurace databáze
 
-Just about every Rails application will interact with a database. The database to use is specified in a configuration file, +config/database.yml+.
-If you open this file in a new Rails application, you'll see a default database configuration using SQLite3. The file contains sections for three different environments in which Rails can run by default:
+Pravděpodobně každá vaše Rails aplikace bude komunikovat s databází. Jaká databaze se použije je nastaveno v konfiguračním souboru, +config/database.yml+. Pokud otevřete tento soubor v nové Rails aplikaci, uvidíte základní konfiguraci databáze používající SQLite3. Soubor obsahuje sekce pro tři rozdílná prostředí v kterých mohou být Rails v základu puštěny:
 
-* The +development+ environment is used on your development computer as you interact manually with the application
-* The +test+ environment is used to run automated tests
-* The +production+ environment is used when you deploy your application for the world to use.
+* Prostředí +development+ je používáno na počítači, kde aplikaci vyvíjíte a pracujete s ní.
+* Prostředí +test+ je používáno pro automatizované testy.
+* Prostředí +production+ je používáno v momentě, kdy je aplikace nasazena na server a spuštěna pro reálné použítí.
 
-h5. Configuring an SQLite3 Database
+h5. Konfigurace databáze SQLite3
 
-Rails comes with built-in support for "SQLite3":http://www.sqlite.org, which is a lightweight serverless database application. While a busy production environment may overload SQLite, it works well for development and testing. Rails defaults to using an SQLite database when creating a new project, but you can always change it later.
+Rails přicházejí s vestavěnou podporou pro "SQLite3":http://www.sqlite.org, což je lehká databáze nepotřebující server ke svému běhu. V produkci by ovšem mohla být snadno přetížena, proto je vhodá pro použítí při vývoji a testování. Rails aplikace je v základu vytvořena s nastavením pro SQLite, ale můžete to kdykoli později změnit.
 
-Here's the section of the default configuration file (<tt>config/database.yml</tt>) with connection information for the development environment:
+Tady je sekce základního souboru s konfigurací (<tt>config/database.yml</tt>) s informacemi pro připojení v prostředí development:
 
 <yaml>
 development:
@@ -225,11 +224,11 @@ development:
   timeout: 5000
 </yaml>
 
-NOTE: In this guide we are using an SQLite3 database for data storage, because it is a zero configuration database that just works. Rails also supports MySQL and PostgreSQL "out of the box", and has plugins for many database systems. If you are using a database in a production environment Rails most likely has an adapter for it.
+NOTE: V této příručce používáme SQLite3 databázi pro ukládání dat, jelikož nepotřebuje žádnou dodatečnou konfiguraci. Rails také podporují MySQL a PostgreSQL "out of the box" a existují pluginy pro další databázové systémy. Jestliže využíváte databázi v produkčním prostředí, Rails bude mít správný adaptér pro připojení.
 
-h5. Configuring a MySQL Database
+h5. Konfigurace databáze MySQL
 
-If you choose to use MySQL instead of the shipped Sqlite3 database, your +config/database.yml+ will look a little different. Here's the development section:
+Pokud chcete použít MySQL namísto implicitní databáze Sqlite3, váš +config/database.yml+ bude vypadat trochu odlišně. Tady je část pro prostředí development:
 
 <yaml>
 development:
@@ -242,11 +241,11 @@ development:
   socket: /tmp/mysql.sock
 </yaml>
 
-If your development computer's MySQL installation includes a root user with an empty password, this configuration should work for you. Otherwise, change the username and password in the +development+ section as appropriate.
+Pokud máte na vašem vývojovém počítači instalaci MySQL s uživatelem root a prázdným heslem, tak konfigurace bude fungovat. V opačném případě v ní změnte jméno a heslo podle potřeby v sekci +development+.
 
-h5. Configuring a PostgreSQL Database
+h5. Konfigurace databáze PostgreSQL
 
-Finally if you choose to use PostgreSQL, your +config/database.yml+ will be customized to use PostgreSQL databases:
+A konečně pokud se rozhodnete pro použití PostgreSQL, +config/database.yml+ bude upraven následujícím způsobem:
 
 <yaml>
 development:
@@ -258,69 +257,69 @@ development:
   password:
 </yaml>
 
-Change the username and password in the +development+ section as appropriate.
+Změnte jméno a heslo v sekci +development+ dle potřeby
 
-h4. Creating the Database
+h4. Vytvoření databáze
 
-Now that you have your database configured, it's time to have Rails create an empty database for you. You can do this by running a rake command:
+Teď, když máme databázi nakonfigurovanou, je čas ji vytvořit. Rails jednoduše vytvoří prázdnou databázi spuštěním rake příkazu:
 
 <shell>
 $ rake db:create
 </shell>
 
-This will create your development and test SQLite3 databases inside the <tt>db/</tt> folder.
+Toto vytvoří databáze SQLite3 s názvy development a test v adresáři <tt>db/</tt>.
 
-TIP: Rake is a general-purpose command-runner that Rails uses for many things. You can see the list of available rake commands in your application by running +rake -T+.
+TIP: Rake je obecným nástrojem pro spouštění příkazů, který Rails používají na mnoho věcí. Můžete se podívat na seznam dostupných rake příkazů spuštěním +rake -T+.
 
-h3. Hello, Rails!
+h3. Ahoj Rails!
 
-One of the traditional places to start with a new language is by getting some text up on screen quickly, to do this, you need to get your Rails application server running.
+Jedním z tradičních způsobů, ja začít s novým programovacím jazykem je zobrazení krátkého textu na obrazovce. Abyste toho docílili, musíte spustit server Rails aplikace.
 
-h4. Starting up the Web Server
+h4. Spuštění webového serveru
 
-You actually have a functional Rails application already. To see it, you need to start a web server on your development machine. You can do this by running:
+Ve skutečnosti už máte připravenou plně funkční Rails aplikaci. Abyste si ji zobrazili, musíte spustit webový server na vašem vývojovém počítači. Uděláte to následujícím příkazem:
 
 <shell>
 $ rails server
 </shell>
 
-This will fire up an instance of the Mongrel web server by default (Rails can also use several other web servers). To see your application in action, open a browser window and navigate to "http://localhost:3000":http://localhost:3000. You should see Rails' default information page:
+Ve výchozím nastavení se spustí instance web serveru Mongrel (Rails mohou použít řadu jiných webových serverů). Pro zobrazení aplikace otevřete okno vášeho prohlížeče a jděte na stránku "http://localhost:3000":http://localhost:3000. Měli byste vidět základní informační stránku Rails:
 
 !images/rails_welcome.png(Welcome Aboard screenshot)!
 
-TIP: To stop the web server, hit Ctrl+C in the terminal window where it's running. In development mode, Rails does not generally require you to stop the server; changes you make in files will be automatically picked up by the server.
+TIP: Pro zastavení serveru zmáčkněte Ctrl+C v terminálovém okně, kde server běží. V development módu Rails obvykle nevyžadují zastavení serveru. Jakékoliv změny v souborech, které provedete, server automaticky načte.
 
-The "Welcome Aboard" page is the _smoke test_ for a new Rails application: it makes sure that you have your software configured correctly enough to serve a page.  You can also click on the _About your application’s environment_ link to see a summary of your Application's environment.
+Stránka "Welcome Aboard" je jen _zkouška sirén_ pro novou Rails aplikaci: ujišťuje se, že máte vše správně nastaveno pro zobrazení stránky. Můžete táké přejít na odkaz _About your application's environment_ kde najdete shrnutí konfigurace vašeho aplikačního prostředí.
 
-h4. Say "Hello", Rails
+h4. Rails, řekněte "Ahoj"
 
-To get Rails saying "Hello", you need to create at minimum a controller and a view. Fortunately, you can do that in a single command. Enter this command in your terminal:
+Aby Rails řekly "Ahoj", musíte vytvořit kontroler (controller) a pohled (view). Naštěstí toto můžete provést spuštěním jediného příkazu. Vložte tedy do terminálu:
 
 <shell>
 $ rails generate controller home index
 </shell>
 
-TIP: If you're on Windows, or your Ruby is set up in some non-standard fashion, you may need to explicitly pass Rails +rails+ commands to Ruby: +ruby \path\to\rails controller home index+.
+TIP: Pokud používáte Windows, nebo máte Ruby nestandardně nainstalované, možná budete muset příkaz pustit s celou cestou k Rails: +ruby \path\to\rails controller home index+.
 
-Rails will create several files for you, including +app/views/home/index.html.erb+. This is the template that will be used to display the results of the +index+ action (method) in the +home+ controller. Open this file in your text editor and edit it to contain a single line of code:
+Rails pro Vás vytvoří několik souborů, včetně +app/views/home/index.html.erb+. Toto je šablona, která bude použita pro zobrazení výsledku akce (action) index v kontroleru (controller) home. Otevřete tento soubor v textovém editoru a upravte ho, aby obsahoval tuto jednoduchou řádku kódu:
 
 <code class="html">
-<h1>Hello, Rails!</h1>
+<h1>Ahoj Rails!</h1>
 </code>
 
-h4. Setting the Application Home Page
+h4. Nastavení domovské stránky aplikace
 
-Now that we have made the controller and view, we need to tell Rails when we want "Hello Rails" to show up.  In our case, we want it to show up when we navigate to the root URL of our site, "http://localhost:3000":http://localhost:3000, instead of the "Welcome Aboard" smoke test.
+Nyní, když jsme vytvořili controller a view, ještě potřebujeme Rails říci, kdy se má "Ahoj, Rails" zobrazit. V našem případě chceme, aby se to zobrazilo na výchozí URL naší stránky, "http://localhost:3000":http://localhost:3000, namísto zkušební stránky "Welcome Aboard".
 
-The first step to doing this is to delete the default page from your application:
+Prvním krokem je smazání základní stránky z vaší aplikace:
 
 <shell>
 $ rm public/index.html
 </shell>
 
-We need to do this as Rails will deliver any static file in the +public+ directory in preference to any dynamic contact we generate from the controllers.
+Toto musíme udělat, jelikož Rails posílají jakýkoli statický obsah ze složky +public+ přednostně před dynamicky generovaným obsahem z controllerů.
 
-Now, you have to tell Rails where your actual home page is located. Open the file +config/routes.rb+ in your editor. This is your application's _routing file_ which holds entries in a special DSL (domain-specific language) that tells Rails how to connect incoming requests to controllers and actions. This file contains many sample routes on commented lines, and one of them actually shows you how to connect the root of your site to a specific controller and action. Find the line beginning with +root :to+, uncomment it and change it like the following:
+Nyní musíte Rails říci, kde se nachází skutečná domovská stránka. Otevřete soubor +config/routes.rb+ v textovém editoru. To je konfigurace cest (routes) aplikace, které jsou nastaveny speciálním DSL (domain-specific language). Díky tomu Rails ví, jak spojit příchozí požadavky s controllery a akcemi. Tento soubor obsahuje mnoho příkladů v zakomentovaných řádcích. Jeden z nich ukazuje, jak spojit domovskou stránku vaší aplikace s konkrétním controllerem a akcí. Najděte řádek začínající na +root :to+, odkomentujte ho a změňte následovně:
 
 <ruby>
 Blog::Application.routes.draw do
@@ -331,50 +330,50 @@ Blog::Application.routes.draw do
   root :to => "home#index"
 </ruby>
 
-The +root :to => "home#index"+ tells Rails to map the root action to the home controller's index action.
+The +root :to => "home#index"+ říká Rails, že má požadavky směřované na "/" spojit s controllerem home a jeho akcí index.
 
-Now if you navigate to "http://localhost:3000":http://localhost:3000 in your browser, you'll see +Hello, Rails!+.
+Pokud si nyní v prohlížeči zobrazíte "http://localhost:3000":http://localhost:3000, uvidíte +Ahoj, Rails!+.
 
-NOTE. For more information about routing, refer to "Rails Routing from the Outside In":routing.html.
+NOTE. Více informací ohledně routování naleznete v "Rails Routing from the Outside In":routing.html.
 
-h3. Getting Up and Running Quickly with Scaffolding
+h3. Rychlý start s použitím nástroje Scaffolding (lešení)
 
-Rails _scaffolding_ is a quick way to generate some of the major pieces of an application. If you want to create the models, views, and controllers for a new resource in a single operation, scaffolding is the tool for the job.
+V Rails je _scaffolding_ rychlým způsobem jak vytvořit některé hlavní kusy aplikace. Když chcete vytvořit modely, views a controllery pro nové zdroje v jediném kroku, scaffolding je tím správným nástrojem.
 
-h3. Creating a Resource
+h3. Vytvoření zdroje
 
-In the case of the blog application, you can start by generating a scaffolded Post resource: this will represent a single blog posting. To do this, enter this command in your terminal:
+V případě blogovací aplikace můžete začít vytvořením scaffold pro zdroj Post (příspěvek): ten bude představovat jednotlivý příspěvek na blogu. Pro jeho vytvoření zadejte v terminálu následující příkaz:
 
 <shell>
 $ rails generate scaffold Post name:string title:string content:text
 </shell>
 
-NOTE. While scaffolding will get you up and running quickly, the "one size fits all" code that it generates is unlikely to be a perfect fit for your application. In most cases, you'll need to customize the generated code. Many experienced Rails developers avoid scaffolding entirely, preferring to write all or most of their source code from scratch.
+NOTE. I když Vám scaffolding pomůže rychle začít, univerzální kód, který vygeneruje, pravděpodobně nebude perfektně vyhovovat Vaší aplikaci. Ve většině případů budete chtít následně poupravit vygenerovaný kód. Mnoho zkušených vývojářů v Rails vůbec scaffolding nepoužívá a upřednostňuje psaní veškerého nebo většiny kódu „z čistého listu.“
 
-The scaffold generator will build 15 files in your application, along with some folders, and edit one more. Here's a quick overview of what it creates:
+Scaffolding generátor vytvoří ve Vaší aplikaci 15 souborů, několik složek, a jeden soubor upraví. Toto je přehled co všechno vytvoří:
 
-|_.File                                       |_.Purpose|
-|db/migrate/20100207214725_create_posts.rb.rb    |Migration to create the posts table in your database (your name will include a different timestamp)|
-|app/models/post.rb                           |The Post model|
-|test/fixtures/posts.yml                      |Dummy posts for use in testing|
-|app/controllers/posts_controller.rb          |The Posts controller|
-|app/views/posts/index.html.erb               |A view to display an index of all posts |
-|app/views/posts/edit.html.erb                |A view to edit an existing post|
-|app/views/posts/show.html.erb                |A view to display a single post|
-|app/views/posts/new.html.erb                 |A view to create a new post|
-|app/views/posts/_form.html.erb               |A partial to control the overall look and feel of the form used in edit and new views|
-|app/helpers/posts_helper.rb                  |Helper functions to be used from the post views|
-|test/unit/post_test.rb                       |Unit testing harness for the posts model|
-|test/functional/posts_controller_test.rb     |Functional testing harness for the posts controller|
-|test/unit/helpers/posts_helper_test.rb       |Unit testing harness for the posts helper|
-|config/routes.rb                             |Edited to include routing information for posts|
-|public/stylesheets/scaffold.css              |Cascading style sheet to make the scaffolded views look better|
+|_.Soubor                                       |_.Účel|
+|db/migrate/20100207214725_create_posts.rb.rb    |Migrace vytvářející tabulku posts v databázi (u Vás bude název obsahovat jinou časovou značku)|
+|app/models/post.rb                           |model Post|
+|test/fixtures/posts.yml                      |Uměle vygenerované příspěvky pro účely testování|
+|app/controllers/posts_controller.rb          |Posts controller|
+|app/views/posts/index.html.erb               |View zobrazující seznam všech příspěvků|
+|app/views/posts/edit.html.erb                |View k úpravám existujícího příspěvku|
+|app/views/posts/show.html.erb                |View pro zobrazení jednotlivého příspěvku|
+|app/views/posts/new.html.erb                 |View pro vytvoření nového příspěvku|
+|app/views/posts/_form.html.erb               |Parciální šablona formuláře použitého ve views new a edit|
+|app/helpers/posts_helper.rb                  |Pomocné funkce pro předchozí views|
+|test/unit/post_test.rb                       |Jednotkové testy posts modelu|
+|test/functional/posts_controller_test.rb     |Funkční testy posts controlleru|
+|test/unit/helpers/posts_helper_test.rb       |Jednotkové testy posts helperu|
+|config/routes.rb                             |Do souboru přidány údaje pro směrování posts|
+|public/stylesheets/scaffold.css              |Kaskádové styly zlepšující vzhled scaffoldovaných views|
 
-h4. Running a Migration
+h4. Spuštění migrace
 
-One of the products of the +rails generate scaffold+ command is a _database migration_. Migrations are Ruby classes that are designed to make it simple to create and modify database tables. Rails uses rake commands to run migrations, and it's possible to undo a migration after it's been applied to your database. Migration filenames include a timestamp to ensure that they're processed in the order that they were created.
+Jedním z výstupů příkazu +rails generate scaffold+ je _databázová migrace_. Migrace jsou třídy Ruby, jejichž účelem je zjednodušit vytváření nebo úpravy databázových tabulek. Rails používají ke spuštění migrací příkaz rake, a je také možné vrátit zpět migraci, která již byla provedena. Názvy souborů migrací obsahují časovou značku, aby bylo zajištěno, že jsou zpracovány v pořadí, v jakém byly vytvořeny.
 
-If you look in the +db/migrate/20100207214725_create_posts.rb+ file (remember, yours will have a slightly different name), here's what you'll find:
+Když se podíváte do souboru +db/migrate/20100207214725_create_posts.rb+ (pamatujte, že Váš bude mít mírně odlišný název), uvidíte následující:
 
 <ruby>
 class CreatePosts < ActiveRecord::Migration
@@ -394,15 +393,15 @@ class CreatePosts < ActiveRecord::Migration
 end
 </ruby>
 
-The above migration creates two methods, +up+, called when you run this migration into the database, and +down+ in case you need to reverse the changes made by this migration at a later date.  The +up+ command in this case creates a +posts+ table with two string columns and a text column.  It also creates two timestamp fields to track record creation and updating.  More information about Rails migrations can be found in the "Rails Database Migrations":migrations.html guide.
+Tato migrace vytváří dvě metody: +up+, volanou když spustíte tuto migraci nad databází, a +down+ v případě, že chcete později vrátit změny, provedené touto migrací na databázi. V tomto případě medtoda +up+ vytvoří tabulku +posts+ se dvěma sloupci formátu string (textový řetězec) a jeden sloupec formátu text. Také vytvoří dva sloupce pro časové značky určené pro zachycení vyvoření a editace záznamu. Více informací o migracích naleznete v průvodci "Rails Database Migrations":migrations.html.
 
-At this point, you can use a rake command to run the migration:
+Nyní můžete použít příkaz rake ke spuštění migrace:
 
 <shell>
 $ rake db:migrate
 </shell>
 
-Rails will execute this migration command and tell you it created the Posts table.
+Rails provede migraci a oznámí Vám, že vytvořily tabulku Posts.
 
 <shell>
 ==  CreatePosts: migrating ====================================================
@@ -411,45 +410,45 @@ Rails will execute this migration command and tell you it created the Posts tabl
 ==  CreatePosts: migrated (0.0020s) ===========================================
 </shell>
 
-NOTE. Because you're working in the development environment by default, this command will apply to the database defined in the +development+ section of your +config/database.yml+ file.
+NOTE. Protože pracujete implicitně v development prostředí, tento příkaz se provede nad databází definovanou v sekci +development+ v souboru +config/database.yml+.
 
-h4. Adding a Link
+h4. Přidání odkazu
 
-To hook the posts up to the home page you've already created, you can add a link to the home page. Open +app/views/home/index.html.erb+ and modify it as follows:
+K napojení příspěvků na domácí stránku, kterou jste už vytvořili, můžete přidat odkaz. Otevřete +app/views/home/index.html.erb+ a změňte jej takto:
 
 <code lang="ruby">
-<h1>Hello, Rails!</h1>
-<%= link_to "My Blog", posts_path %>
+<h1>Ahoj, Rails!</h1>
+<%= link_to "Můj blog", posts_path %>
 </code>
 
-The +link_to+ method is one of Rails' built-in view helpers. It creates a hyperlink based on text to display and where to go - in this case, to the path for posts.
+Metoda +link_to+ je jednou z pomocných funkcí views, zabudovaných v Rails. Vytvoří hypertextový odkaz z parametrů jaký text zobrazit a kam odkázat – v tomto případě cesta k příspěvkům.
 
-h4. Working with Posts in the Browser
+h4. Práce s příspěvky v prohlížeči
 
-Now you're ready to start working with posts. To do that, navigate to "http://localhost:3000":http://localhost:3000/ and then click the "My Blog" link:
+Nyní už můžete začít pracovat s příspěvky. Přejděte na "http://localhost:3000":http://localhost:3000/ a klikněte na odkaz "Můj blog":
 
 !images/posts_index.png(Posts Index screenshot)!
 
-This is the result of Rails rendering the +index+ view of your posts. There aren't currently any posts in the database, but if you click the +New Post+ link you can create one. After that, you'll find that you can edit posts, look at their details, or destroy them. All of the logic and HTML to handle this was built by the single +rails generate scaffold+ command.
+Toto je výsledkem vykreslení pohledu +index+. Momentálně nejsou v databázi žádné příspěvky, ale pokud kliknete na odkaz +New Post+, můžete nějaký vytvořit. Následně uvidíte, že můžete příspěvky editovat, podívat se na jejich detaily nebo je mazat. Veškerá tato aplikační logika a HTML, které se o to starají, byly vytvořeny jediným příkazem +rails generate scaffold+.
 
-TIP: In development mode (which is what you're working in by default), Rails reloads your application with every browser request, so there's no need to stop and restart the web server.
+TIP: V módu development (ve kterém pracujete implicitně) Rails znovu načítá celou aplikaci při každém požadavku odeslaném prohlížečem, takže není třeba restartovat webserver.
 
-Congratulations, you're riding the rails! Now it's time to see how it all works.
+Gratulujeme, jedete na Rails! Teď je na čase podívat se, jak to všechno funguje.
 
-h4. The Model
+h4. Model
 
-The model file, +app/models/post.rb+ is about as simple as it can get:
+Soubor modelu +app/models/post.rb+ už snad nemůže být jednodušší:
 
 <ruby>
 class Post < ActiveRecord::Base
 end
 </ruby>
 
-There isn't much to this file - but note that the +Post+ class inherits from +ActiveRecord::Base+. Active Record supplies a great deal of functionality to your Rails models for free, including basic database CRUD (Create, Read, Update, Destroy) operations, data validation, as well as sophisticated search support and the ability to relate multiple models to one another.
+K tomu není moc co dodat - ale povšimněte si prosím, že třída +Post+ dědí od třídy +ActiveRecord::Base+. Active Record poskytuje spoustu funkcionality Vašim rails modelům zdarma, včetně základních databázových operací CRUD (Create/Vytvořit, Read/Načíst, Update/Upravit, Destroy/Odstranit), validací dat, a také sofistikovanou podporu vyhledávání a schopnost vytváření relací mezi jednotlivými modely.
 
-h4. Adding Some Validation
+h4. Přidání pár validací
 
-Rails includes methods to help you validate the data that you send to models. Open the +app/models/post.rb+ file and edit it:
+Rails obsahují metody, které Vám pomůžou validovat data, která se posílají modelu. Otevřete soubor +app/models/post.rb+ a upravte jej:
 
 <ruby>
 class Post < ActiveRecord::Base
@@ -459,22 +458,22 @@ class Post < ActiveRecord::Base
 end
 </ruby>
 
-These changes will ensure that all posts have a name and a title, and that the title is at least five characters long. Rails can validate a variety of conditions in a model, including the presence or uniqueness of columns, their format, and the existence of associated objects.
+Tyto změny zajistí, že všechny příspěvky budou mít jméno (name) a titulek (title) a že titulek bude mít alespoň 5 znaků. Rails můžou validovat mnoho různých podmínek v modelu, včetně existence a unikátnosti sloupců, jejich formátu a existence asociovaných objektů.
 
-h4. Using the Console
+h4. Použití konzole
 
-To see your validations in action, you can use the console. The console is a command-line tool that lets you execute Ruby code in the context of your application:
+Abychom si prohlídli validace v akci, můžeme použít konzoli. Konzole je nástroj příkazové řádky, který umožňuje spouštět Ruby kód v kontextu Vaší aplikace:
 
 <shell>
 $ rails console
 </shell>
 
-After the console loads, you can use it to work with your application's models:
+Když se konzole načte, můžete ji použít pro práci s modely ve Vaší aplikaci:
 
 <shell>
->> p = Post.new(:content => "A new post")
+>> p = Post.new(:content => "Nový příspěvek")
 => #<Post id: nil, name: nil, title: nil,
-     content: "A new post", created_at: nil,
+     content: "Nový příspěvek", created_at: nil,
      updated_at: nil>
 >> p.save
 => false
@@ -484,15 +483,15 @@ After the console loads, you can use it to work with your application's models:
                    :name=>["can't be blank"] }>
 </shell>
 
-This code shows creating a new +Post+ instance, attempting to save it and getting +false+ for a return value (indicating that the save failed), and inspecting the +errors+ of the post.
+Tento kód ukazuje vytvoření nové instance třídy +Post+, pokus o její uložení a obdržení návratové hodnoty +false+ (indikující, že uložení se nezdařilo) a vypsání detailu chyby.
 
-When you're finished, type +exit+ and hit +return+ to exit the console.
+Až budete hotovi, napište +exit+ a stiskněte +enter+ pro odchod z konzole.
 
-TIP: Unlike the development web server, the console does not automatically load your code afresh for each line. If you make changes to your models while the console is open, type +reload!+ at the console prompt to load them.
+TIP: Narozdíl od development web serveru, konzole nenačítá znovu kód pro každý řádek. Pokud provedete změnu v modelu zatímco konzole je otevřená, napište v konzoli +reload!+, abyste tyto změny načetli.
 
-h4. Listing All Posts
+h4. Vypsání všech příspěvků
 
-The easiest place to start looking at functionality is with the code that lists all posts. Open the file +app/controllers/posts_controller.rb+ and look at the +index+ action:
+Nejjednodušejší místo, kde začít zkoumat funkcionalitu naší aplikace je kód, který vypíše všechny příspěvky. Otevřete soubor +app/controllers/posts_controller.rb+ a podívejte se na akci +index+:
 
 <ruby>
 def index
@@ -505,11 +504,11 @@ def index
 end
 </ruby>
 
-+Post.all+ calls the +Post+ model to return all of the posts currently in the database. The result of this call is an array of posts that we store in a instance variable called +@posts+.
++Post.all+ říká modelu +Post+, aby vrátil všechny příspěvky, které momentálně v databázi jsou. Výstupem tohoto příkazu je pole s příspěvky, které uložíme do instanční proměnné nazvané +@posts+.
 
-TIP: For more information on finding records with Active Record, see "Active Record Query Interface":active_record_querying.html.
+TIP: Více informací o vyhledávání záznamů pomocí Active Record naleznete v průvodci "Active Record Query Interface":active_record_querying.html.
 
-The +respond_to+ block handles both HTML and XML calls to this action. If you browse to "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml, you'll see all of the posts in XML format. The HTML format looks for a view in +app/views/posts/+ with a name that corresponds to the action name. Rails makes all of the instance variables from the action available to the view. Here's +app/views/posts/index.html.erb+:
+Blok +repond_to+ zpracuje HTML a XML volání této akce. Pokud přejdete na "http://localhost:3000/posts.xml":http://localhost:3000/posts.xml, uvidíte všechny příspěvky v XML formátu. Formát HTML vyhledá view ve složce +app/views/posts/+ s názvem odpovídajícím názvu akce. Rails dají všechny instanční proměnné z akce k dispozici příslušnému view. Zde je +app/views/posts/index.html.erb+:
 
 <erb>
 <h1>Listing posts</h1>
@@ -541,18 +540,18 @@ The +respond_to+ block handles both HTML and XML calls to this action. If you br
 <%= link_to 'New post', new_post_path %>
 </erb>
 
-This view iterates over the contents of the +@posts+ array to display content and links. A few things to note in the view:
+Tento pohled projde obsah pole +@posts+, aby zobrazil obsah a odkazy. Několik věcí k povšimnutí v tomto view:
 
-* +link_to+ builds a hyperlink to a particular destination
-* +edit_post_path+ and +new_post_path+ are helpers that Rails provides as part of RESTful routing. You'll see a variety of these helpers for the different actions that the controller includes.
+* +link_to+ vytvoří hypertextový odkaz na příslušný cíl
+* +edit_post_path+ a +new_post_path+ jsou helpery, které Rails poskytují jako součást REST směrování. U dalších akcí, které controller obsahuje, uvidíte mnoho dalších variací těchto helperů.
 
-NOTE. In previous versions of Rails, you had to use +&lt;%=h post.name %&gt;+ so that any HTML would be escaped before being inserted into the page.  In Rails 3.0, this is now the default.  To get unescaped HTML, you now use +&lt;%= raw post.name %&gt;+.
+NOTE. V předchozích verzích Rails jste museli použít +&lt;%=h post.name %&gt;+ aby bylo případný HTML kód transformován, než bude vložen do stránky. V Rails 3.0 je tato operace implicitní. Abyste získali netransformované HTML, použijte +&lt;%= raw post.name %&gt;+.
 
-TIP: For more details on the rendering process, see "Layouts and Rendering in Rails":layouts_and_rendering.html.
+TIP: Více detailů k zobrazovacímu procesu najdete v průvodci "Layouts and Rendering in Rails":layouts_and_rendering.html.
 
-h4. Customizing the Layout
+h4. Ůprava layoutu
 
-The view is only part of the story of how HTML is displayed in your web browser. Rails also has the concept of +layouts+, which are containers for views. When Rails renders a view to the browser, it does so by putting the view's HTML into a layout's HTML. In previous versions of Rails, the +rails generate scaffold+ command would automatically create a controller specific layout, like +app/views/layouts/posts.html.erb+, for the posts controller. However this has been changed in Rails 3.0. An application specific +layout+ is used for all the controllers and can be found in +app/views/layouts/application.html.erb+. Open this layout in your editor and modify the +body+ tag:
+View je jen část příběhu, jak je se HTML zobrazí ve Vašem prohlížeči. Rails také používají konecpt layoutů, což jsou konteinery pro views. Když Rails zobrazují view v prohlížeči, vkládají HTML kód z view souboru do HTML kódu layoutu. V předchozích verzích Rails příkaz +rails generate scaffold+ automaticky vytvořil samostatný layout pro příslušný controller, například +app/views/layouts/posts.html.erb+ pro posts controller. Tohle však bylo v Rails 3.0 změněno. Vytváří se jeden +layout+ pro celou aplikaci a je uložen jako soubor +app/views/layouts/application.html.erb+. Otevřete tento layout ve Vašem editoru a upravte tag +body+:
 
 <erb>
 <!DOCTYPE html>
@@ -571,11 +570,11 @@ The view is only part of the story of how HTML is displayed in your web browser.
 </html>
 </erb>
 
-Now when you refresh the +/posts+ page, you'll see a gray background to the page. This same gray background will be used throughout all the views for posts.
+Když teď znovu načtete stránku +/posts+, uvidíte, že má šedé pozadí. Stejné šedé pozadí bude použito ve všech ostatních views.
 
-h4. Creating New Posts
+h4. Vytváření nových příspěvků
 
-Creating a new post involves two actions. The first is the +new+ action, which instantiates an empty +Post+ object:
+Vytvoření nového příspěvku zahrnuje dvě akce. První je akce +new+, která vytvoří prázdný objekt +Post+:
 
 <ruby>
 def new
@@ -588,7 +587,7 @@ def new
 end
 </ruby>
 
-The +new.html.erb+ view displays this empty Post to the user:
+View +new.html.erb+ zobrazí uživateli tento prázdný příspěvek:
 
 <erb>
 <h1>New post</h1>
@@ -598,9 +597,9 @@ The +new.html.erb+ view displays this empty Post to the user:
 <%= link_to 'Back', posts_path %>
 </erb>
 
-The +&lt;%= render 'form' %&gt;+ line is our first introduction to _partials_ in Rails.  A partial is a snippet of HTML and Ruby code that can be reused in multiple locations.  In this case, the form used to make a new post, is basically identical to a form used to edit a post, both have text fields for the name and title and a text area for the content with a button to make a new post or update the existing post.
+Řádek +&lt;%= render 'form' %&gt;+ je naším úvodem do parciálních šablon v Rails (dále _partials_). Partial je útržek kódu HTML a Ruby, který může být vícenásobně použit na různých místech. V tomto případě je formulář pro vytvoření nového příspěvku prakticky totožný s formulářem pro úpravu příspěvků – oba mají textová pole pro název a titlek textarea pro obsah příspěvku s tlačítkem pro vytvoření nového příspěvku nebo úpravu stávajícího.
 
-If you take a look at +views/posts/_form.html.erb+ file, you will see the following:
+Když se podíváte na soubor +views/posts/_form.html.erb+, uvidíte následující:
 
 <erb>
 <%= form_for(@post) do |f| %>
@@ -633,9 +632,9 @@ If you take a look at +views/posts/_form.html.erb+ file, you will see the follow
 <% end %>
 </erb>
 
-This partial receives all the instance variables defined in the calling view file, so in this case, the controller assigned the new Post object to +@post+ and so, this is available in both the view and partial as +@post+.
+Tento partial obdrží všechny instanční proměnné definované při volání view, takže v tomto případě controller vloží nový objekt příspěveku to proměnné +@post+ a proto je k dispozici jak ve view tak v partialu jako +@post+.
 
-For more information on partials, refer to the "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials guide.
+Více informací k partials najdete v průvodci "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials guide.
 
 The +form_for+ block is used to create an HTML form. Within this block, you have access to methods to build various controls on the form. For example, +f.text_field :name+ tells Rails to create a text input on the form, and to hook it up to the +name+ attribute of the instance being displayed. You can only use these methods with attributes of the model that the form is based on (in this case +name+, +title+, and +content+). Rails uses +form_for+ in preference to having you write raw HTML because the code is more succinct, and because it explicitly ties the form to a particular model instance.
 
@@ -1017,11 +1016,11 @@ Teď můžete přidávat příspěvky a komentáře do vašeho blogu mít je zob
 
 h3. Refactoring
 
-Now that we have Posts and Comments working, if we take a look at the +app/views/posts/show.html.erb+ template, it's getting long and awkward. We can use partials to clean this up.
+Teď máme fungující články a jejich komentování. Když se ale podíváme do šablony +app/views/posts/show.html.erb+, zjistíme že kód je dlouhý a nešikovný. Můžeme použít partials (parciální/částečné šablony) k lepší čitelnosti kódu.
 
-h4. Rendering Partial Collections
+h4. Vykreslení parciálních kolekcí
 
-First we will make a comment partial to extract showing all the comments for the post. Create the file +app/views/comments/_comment.html.erb+ and put the following into it:
+Nejdřív vytvoříme z kódu pro zobrazování komentáře u článku parciální šablonu. Vytvoříme soubor +app/views/comments/_comment.html.erb+ a do něj vložíme nasledující kód:
 
 <erb>
 <p>
@@ -1035,30 +1034,30 @@ First we will make a comment partial to extract showing all the comments for the
 </p>
 </erb>
 
-Then in the +app/views/posts/show.html.erb+ you can change it to look like the following:
+Potom můžeme v šabloně +app/views/posts/show.html.erb+ udělat změny tak, aby vypadal následovně:
 
 <erb>
 <p class="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
+  <b>Jméno:</b>
   <%= @post.name %>
 </p>
 
 <p>
-  <b>Title:</b>
+  <b>Titulek:</b>
   <%= @post.title %>
 </p>
 
 <p>
-  <b>Content:</b>
+  <b>Obsah:</b>
   <%= @post.content %>
 </p>
 
-<h2>Comments</h2>
+<h2>Komentáře</h2>
 <%= render @post.comments %>
 
-<h2>Add a comment:</h2>
+<h2>Přidat komentář:</h2>
 <%= form_for([@post, @post.comments.build]) do |f| %>
   <%= f.error_messages %>
 
@@ -1077,15 +1076,15 @@ Then in the +app/views/posts/show.html.erb+ you can change it to look like the f
 
 <br />
 
-<%= link_to 'Edit Post', edit_post_path(@post) %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<%= link_to 'Upravit příspěvek', edit_post_path(@post) %> |
+<%= link_to 'Zpět na příspěvky', posts_path %> |
 </erb>
 
 This will now render the partial in +app/views/comments/_comment.html.erb+ once for each comment that is in the +@post.comments+ collection.  As the +render+ method iterates over the <tt>@post.comments</tt> collection, it assigns each comment to a local variable named the same as the partial, in this case +comment+ which is then available in the partial for us to show.
 
-h4. Rendering a Partial Form
+h4. Vykreslední partial formuláře
 
-Lets also move that new comment section out to it's own partial, again, you create a file +app/views/comments/_form.html.erb+ and in it you put:
+Pojďme také přesunout sekci „nový komentář“ do vlastního partialu. Vytvořte soubor +app/views/comments/_form.html.erb+ a do něj vložte:
 
 <erb>
 <%= form_for([@post, @post.comments.build]) do |f| %>
@@ -1105,7 +1104,7 @@ Lets also move that new comment section out to it's own partial, again, you crea
 <% end %>
 </erb>
 
-Then you make the +app/views/posts/show.html.erb+ look like the following:
+Pak změňte +app/views/posts/show.html.erb+ do následující podoby:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -1137,9 +1136,9 @@ Then you make the +app/views/posts/show.html.erb+ look like the following:
 <%= link_to 'Back to Posts', posts_path %> |
 </erb>
 
-The second render just defines the partial template we want to render, <tt>comments/form</tt>, Rails is smart enough to spot the forward slash in that string and realize that you want to render the <tt>_form.html.erb</tt> file in the <tt>app/views/comments</tt> directory.
+Druhý render pouze definuje částečnou šablonu kterou vykreslit - <tt>comments/form</tt>. Rails jsou dost chytré na to, aby poznaly lomítko v řetězci a pochopily že chcete vykreslit šablonu <tt>_form.html.erb</tt> ze složky <tt>app/views/comments</tt>.
 
-The +@post+ object is available to any partials rendered in the view because we defined it as an instance variable.
+Objekt +@post+ je dostupný v kterékoliv parciální šabloně, protože je definován jako instanční proměnná.
 
 h3. Mazání komentářů
 
