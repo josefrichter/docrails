@@ -634,15 +634,15 @@ Když se podíváte na soubor +views/posts/_form.html.erb+, uvidíte následují
 
 Tento partial obdrží všechny instanční proměnné definované při volání view, takže v tomto případě controller vloží nový objekt příspěveku to proměnné +@post+ a proto je k dispozici jak ve view tak v partialu jako +@post+.
 
-Více informací k partials najdete v průvodci "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials guide.
+Více informací k partials najdete v průvodci "Layouts and Rendering in Rails":layouts_and_rendering.html#using-partials.
 
-The +form_for+ block is used to create an HTML form. Within this block, you have access to methods to build various controls on the form. For example, +f.text_field :name+ tells Rails to create a text input on the form, and to hook it up to the +name+ attribute of the instance being displayed. You can only use these methods with attributes of the model that the form is based on (in this case +name+, +title+, and +content+). Rails uses +form_for+ in preference to having you write raw HTML because the code is more succinct, and because it explicitly ties the form to a particular model instance.
+Blok +form_for+ se používa pro vytvoření formuláře. Uvnitř tohoto bloku máte přístup k metodám pro vytvoření různých ovládacích prvků. Například, +f.text_field :name+ řekne Rails, aby ve formuláři vytvořili textové a navázali ho na atribut +name+ instance, která se zobrazuje. Tyhle metody můžete používat jenom na atributech modelu, na kterém je formulář založen (v tomhle případě +name+, +title+, a +content+). Rails upřednostňují používání +form_for+ před psaním čistého HTML protože kód je stručnější, a protože explicitně váže formulář na danou instanci modelu.
 
-The +form_for+ block is also smart enough to work out if you are doing a _New Post_ or an _Edit Post_ action, and will set the form +action+ tags and submit button names appropriately in the HTML output.
+Blok +form_for+ je tak chytrý, že přijde na to, jestli děláte akci _New Post_ nebo _Edit Post_, a vhodně nastaví tagy +action+ pro formulář a text odesílacího tlačítka v HTML výstupu.
 
-TIP: If you need to create an HTML form that displays arbitrary fields, not tied to a model, you should use the +form_tag+ method, which provides shortcuts for building forms that are not necessarily tied to a model instance.
+TIP: Jestli potřebujete vytvořit HTML formulář, který zobrazuje libovolné prvky, které nejsou vázané na model, měli by jste použít metodu +form_tag+, která poskytuje zjednodušený přístup pro vytváření formulářů, které nejsou nutně vázány na instance modelu.
 
-When the user clicks the +Create Post+ button on this form, the browser will send information back to the +create+ method of the controller (Rails knows to call the +create+ method because the form is sent with an HTTP POST request; that's one of the conventions that I mentioned earlier):
+Když uživatel klikne v tomhle formuláři na tlačítko +Create Post+, prohlížeč pošle informace zpátky metodě +create+ patříci kontrolleru (Rails ví, že má volat metodu +create+ protože formulář se posílá HTTP POST požadavkem; to je jedna z konvencí, kterou jsem už zmínil):
 
 <ruby>
 def create
@@ -669,9 +669,9 @@ If the post was not successfully saved, due to a validation error, then the cont
 
 The "Post was successfully created." message is stored inside of the Rails +flash+ hash, (usually just called _the flash_) so that messages can be carried over to another action, providing the user with useful information on the status of their request. In the case of +create+, the user never actually sees any page rendered during the Post creation process, because it immediately redirects to the new Post as soon Rails saves the record. The Flash carries over a message to the next action, so that when the user is redirected back to the +show+ action, they are presented with a message saying "Post was successfully created."
 
-h4. Showing an Individual Post
+h4. Zobrazování jednotlivých příspěvků
 
-When you click the +show+ link for a post on the index page, it will bring you to a URL like +http://localhost:3000/posts/1+. Rails interprets this as a call to the +show+ action for the resource, and passes in +1+ as the +:id+ parameter. Here's the +show+ action:
+Když kliknete na odkaz +show+ pro příspěvek na stránke index, přesune vás to na URL jako +http://localhost:3000/posts/1+. Rails tohle interpretuje jako volání akce +show+ pro resource a pošle +1+ jako parametr +:id+. Tady je akce +show+:
 
 <ruby>
 def show
