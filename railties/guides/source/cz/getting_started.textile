@@ -651,7 +651,7 @@ def create
   respond_to do |format|
     if @post.save
       format.html { redirect_to(@post,
-                    :notice => 'Post was successfully created.') }
+                    :notice => 'Příspěvek byl úspěšně vytvořen.') }
       format.xml  { render :xml => @post,
                     :status => :created, :location => @post }
     else
@@ -663,11 +663,11 @@ def create
 end
 </ruby>
 
-The +create+ action instantiates a new Post object from the data supplied by the user on the form, which Rails makes available in the +params+ hash. After successfully saving the new post, +create+ returns the appropriate format that the user has requested (HTML in our case). It then redirects the user to the resulting post +show+ action and sets a notice to the user that the Post was successfully created.
+Akce +create+ vytvoří nový objekt Post z dat, poskytnutých uživatelem přes formulář, které Rails spřístupní přes hash +params+. Po úspěšnem uložení nového příspěvku, vráti akce +create+ vhodný formát, který si užívatel vyžádal (v našem případě HTML). To pak přesměruje uživatele na výsledný příspěvek zobrazený akcí +show+ a nastaví upozornění pro uživatele, že příspěvek byl úspěšně vytvořen.
 
-If the post was not successfully saved, due to a validation error, then the controller returns the user back to the +new+ action with any error messages so that the user has the chance to fix the error and try again.
+Jestli nebyl příspěvek úspěšně uložen kvůli validační chybě, pak vás kontroler pošle zpátky na akci +new+ s chybovými hláškami, takže uživatel má šanci opravit je a zkusit znovu.
 
-The "Post was successfully created." message is stored inside of the Rails +flash+ hash, (usually just called _the flash_) so that messages can be carried over to another action, providing the user with useful information on the status of their request. In the case of +create+, the user never actually sees any page rendered during the Post creation process, because it immediately redirects to the new Post as soon Rails saves the record. The Flash carries over a message to the next action, so that when the user is redirected back to the +show+ action, they are presented with a message saying "Post was successfully created."
+Zpráva "Příspěvek byl úspěšně vytvořen." je uložena uvnitř Rails +flash+ hash-e, (většinou nazývaný jenom _flash_) takže zprávy se můžou přenést do jiné akce, poskytující uživatele s užitečnými informacemi o stavu jejich požadavku. V případě akce +create+ uživatel nikdy nevidí vyrenderovanou žádnou stránku během procesu vytváření příspěvku, protože je okamžitě přesměrován na nový příspěvek jakmile Rails uloží tento záznam. Flash se sebou nese zprávu do další akce, takže když je uživatel přesměrován zpátky na akci +show+, uvidí zprávu, která říka, že "Příspěvek byl úspěšně vytvořen.".
 
 h4. Zobrazování jednotlivých příspěvků
 
@@ -684,7 +684,7 @@ def show
 end
 </ruby>
 
-The +show+ action uses +Post.find+ to search for a single record in the database by its id value. After finding the record, Rails displays it by using +show.html.erb+:
+Akce +show+ používá +Post.find+ pro hledání jednoho záznamu v databáze podle hodnoty jeho id. Po jeho nalezení ho Rails zobrazí pomocí +show.html.erb+:
 
 <erb>
 <p class="notice"><%= notice %></p>
@@ -709,9 +709,9 @@ The +show+ action uses +Post.find+ to search for a single record in the database
 <%= link_to 'Back', posts_path %>
 </erb>
 
-h4. Editing Posts
+h4. Editace příspěvků
 
-Like creating a new post, editing a post is a two-part process. The first step is a request to +edit_post_path(@post)+ with a particular post. This calls the +edit+ action in the controller:
+Stejně jako vytvoření nového příspěvku, tak i jeho editace je proces skládajíci se ze dvou částí. První krok je požadavek na +edit_post_path(@post)+ s částečným příspěvkem. Tohle zavolá akci +edit+ v kontroleri:
 
 <ruby>
 def edit
@@ -719,10 +719,10 @@ def edit
 end
 </ruby>
 
-After finding the requested post, Rails uses the +edit.html.erb+ view to display it:
+Po nalezení požadovaného příspěvku, Rails použije view +edit.html.erb+ pro jeho zobrazení:
 
 <erb>
-<h1>Editing post</h1>
+<h1>Editace příspěvku</h1>
 
 <%= render 'form' %>
 
@@ -731,9 +731,9 @@ After finding the requested post, Rails uses the +edit.html.erb+ view to display
 <% end %>
 </erb>
 
-Again, as with the +new+ action, the +edit+ action is using the +form+ partial, this time however, the form will do a PUT action to the PostsController and the submit button will display "Update Post"
+Stejně jako s akcí +new+, akce +edit+ používá partial +form+, tentokrát ale, formulář provede akci PUT na PostsController a odesílací tlačítko zobrazí "Update Post"
 
-Submitting the form created by this view will invoke the +update+ action within the controller:
+Odeslání formuláře vytvořeného tímto view vyvolá akci +update+ na kontroleri:
 
 <ruby>
 def update
@@ -753,11 +753,11 @@ def update
 end
 </ruby>
 
-In the +update+ action, Rails first uses the +:id+ parameter passed back from the edit view to locate the database record that's being edited. The +update_attributes+ call then takes the rest of the parameters from the request and applies them to this record. If all goes well, the user is redirected to the post's +show+ view. If there are any problems, it's back to the +edit+ view to correct them.
+V akci +update+, Rails nejprve použije +:id:+ parameter předaný z editačního view pro vyhledání záznamu v databáze, který se bude editovat. Volání +update_attributes+ pak převezme zbytek parametrů z požadavku a aplikuje je na tenhle záznam. Jestli všechno proběhne v pořádku, uživatel je přesměrován na +show+ view se zobrazeným příspěvkem. Jestli se vyskytnou ňejaké problémy, přesměruje se zpátky na view +edit+ pro jejich opravu.
 
-h4. Destroying a Post
+h4. Mazání příspěvku
 
-Finally, clicking one of the +destroy+ links sends the associated id to the +destroy+ action:
+Nakonec, kliknutím jednoho z +destroy+ linků pošle přidružené id akci +destroy+:
 
 <ruby>
 def destroy
@@ -771,7 +771,7 @@ def destroy
 end
 </ruby>
 
-The +destroy+ method of an Active Record model instance removes the corresponding record from the database. After that's done, there isn't any record to display, so Rails redirects the user's browser to the index view for the model.
+Metoda +destroy+ na instanci modelu Active Record odstraní odpovídající záznam z databáze. Jakmile je to dokončeno, není záznam, který by se měl zobrazit, takže Rails přesměrují prohlížeč uživatele na index view pro tenhle model.
 
 h3. Přidání druhého modelu
 
@@ -1082,7 +1082,7 @@ Potom můžeme v šabloně +app/views/posts/show.html.erb+ udělat změny tak, a
 
 This will now render the partial in +app/views/comments/_comment.html.erb+ once for each comment that is in the +@post.comments+ collection.  As the +render+ method iterates over the <tt>@post.comments</tt> collection, it assigns each comment to a local variable named the same as the partial, in this case +comment+ which is then available in the partial for us to show.
 
-h4. Vykreslední partial formuláře
+h4. Vykreslení partial formuláře
 
 Pojďme také přesunout sekci „nový komentář“ do vlastního partialu. Vytvořte soubor +app/views/comments/_form.html.erb+ a do něj vložte:
 
